@@ -1,0 +1,61 @@
+<script src="https://unpkg.com/vue@3"></script>
+<div id="app">
+    <h1>簡易計算機</h1>
+    <div>{{ initValue }}</div>
+    <template v-for="number in 9">
+        <button @click="addNum(number)">{{ number }}</button>
+    </template>
+    <button @click="addNum(0)">0</button>
+    <br>
+    <template v-for="operator in operators">
+        <button @click="operation(operator)">{{ operator }}</button>
+    </template>
+    <br>
+    <button @click="equal">=</button>
+    <button @click="initValue='0'">reset</button>
+
+</div>
+<script>
+    Vue.createApp({
+        data() {
+            return {
+                initValue: '0',
+                operators: ['+', '-', '*', '/'],
+                savedValue: 0,
+                chooseOperator: '',
+            }
+        },
+        methods: {
+            addNum(value) {
+                if (this.initValue == '0') {
+                    this.initValue = value;
+                } else {
+                    this.initValue += value.toString();
+                }
+            },
+            operation(operator) {
+                this.savedValue = Number(this.initValue);
+                this.initValue = '0';
+                this.chooseOperator = operator;
+                console.log(this.savedValue)
+                console.log(this.chooseOperator)
+            },
+            equal() {
+                switch (this.chooseOperator) {
+                    case '+':
+                        this.initValue = `${this.savedValue+Number(this.initValue)}`;
+                        break;
+                    case '-':
+                        this.initValue = `${this.savedValue-Number(this.initValue)}`;
+                        break;
+                    case '*':
+                        this.initValue = `${this.savedValue*Number(this.initValue)}`;
+                        break;
+                    case '/':
+                        this.initValue = `${this.savedValue/Number(this.initValue)}`;
+                        break;
+                }
+            }
+        },
+    }).mount('#app')
+</script>
